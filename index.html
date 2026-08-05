@@ -258,23 +258,7 @@
             color:#27ae60;
         }
 
-        #end-screen{
-        position:absolute;
-        inset:0;
-    
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:flex-start;
-    
-        padding:20px;
-    
-        background:linear-gradient(180deg,#fff7cc,#ffe082);
-    
-        z-index:20;
-    
-        text-align:center;
-        }
+       
         
         .end-title{
         
@@ -285,18 +269,7 @@
         
         }
         
-        .end-image{
         
-            width:85%;
-            max-width:280px;
-        
-            border-radius:20px;
-        
-            border:6px solid white;
-        
-            box-shadow:0 8px 20px rgba(0,0,0,.25);
-        
-        }
         
         .end-card{
         
@@ -329,16 +302,67 @@
             animation: aparecer .8s ease;
         }
         
-        @keyframes aparecer{
+        #end-screen {
+            position:absolute;
+            inset:0;
         
-            from{
-                transform:scale(.3) rotate(-10deg);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        
+            background:
+                radial-gradient(circle, #fff7cc 0%, #ffe082 70%);
+        
+            z-index:20;
+        
+            overflow:hidden;
+        }
+        
+        
+        .end-image {
+        
+            width:85%;
+            max-width:320px;
+        
+            border-radius:25px;
+        
+            animation:
+                aparecer 1.2s ease-out,
+                flutuar 3s ease-in-out infinite;
+        
+            filter: drop-shadow(0 15px 20px rgba(0,0,0,.25));
+        
+        }
+        
+        
+        @keyframes aparecer {
+        
+            0% {
                 opacity:0;
+                transform:scale(.4);
             }
         
-            to{
-                transform:scale(1);
+            70% {
                 opacity:1;
+                transform:scale(1.08);
+            }
+        
+            100% {
+                opacity:1;
+                transform:scale(1);
+            }
+        
+        }
+        
+        
+        @keyframes flutuar {
+        
+            0%,100% {
+                transform:translateY(0);
+            }
+        
+            50% {
+                transform:translateY(-12px);
             }
         
         }
@@ -607,22 +631,13 @@
         }
 
         function mostrarTelaFinal(){
-        
+
             document.querySelector(".header-section").style.display="none";
             document.getElementById("opcoes").style.display="none";
         
             document.getElementById("end-screen").style.display="flex";
-        
-            falar(
-                "Parabéns, Lucas! Você encontrou uma espécie muito rara. " +
-                "Este é o Alencarossauro! " +
-                "Durante o dia ele trabalha no banco. " +
-                "Mas quando chega em casa, coloca seu chapéu de cozinheiro e prepara as comidas mais gostosas do Nordeste. " +
-                "Ele é um dinossauro muito carinhoso e tem uma missão muito importante. Fazer o Lucas sorrir todos os dias! " +
-                "Você terminou o desafio. Estou muito orgulhoso de você!"
-            );
-        
-        }
+
+}
         
         function verificarResposta(selecionado) {
             const atual = quizData[indiceAtual];
@@ -646,7 +661,7 @@
                         } else {
                             mostrarTelaFinal();
                         }
-                    }, 1500);
+                    }, 1000);
         
                 });
         
