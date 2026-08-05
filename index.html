@@ -12,38 +12,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            background: linear-gradient(135deg, #a8ede0 0%, #fed6e3 100%);
-            margin: 0;
-            padding: 5px; /* Reduz o padding externo */
-            display: flex;
-            align-items: flex-start; /* Subi o container para o topo da viewport */
-            justify-content: center;
-            min-height: 100vh;
-            min-height: 100dvh; /* Usa a altura real e dinâmica da tela do celular */
-            font-family: 'Quicksand', sans-serif;
-            overflow: hidden;
-        }
-
-        /* Container Full Vertical (Estilo App de Celular) */
-        .container {
-            background: white;
-            padding: 10px 12px;
-            border-radius: 22px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            width: 100%;
-            max-width: 420px;
-            height: 92vh; /* Usa viewport height estável */
-            height: calc(100dvh - 16px); /* Ajuste exato à tela do celular descontando a margem */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            border: 4px solid #fff;
-            position: relative;
-            overflow: hidden;
-        }
-
         /* --- Tela de Início (Start Screen) --- */
         #start-screen {
             position: absolute;
@@ -126,16 +94,6 @@
             text-shadow: 2px 2px 0px #ffe082;
         }
 
-        .progresso {
-            align-self: center;
-            font-family: 'Fredoka One', cursive;
-            background: #ffe082;
-            color: #d35400;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.95rem;
-        }
-
         #audio-btn {
             width: 44px;
             height: 44px;
@@ -175,17 +133,73 @@
             margin: 6px 0;
         }
 
-        /* Cards grandes verticais para toque fácil da criança */
+        /* 1. Fundo da página escuro */
+        body {
+            background: #0f2027; /* Fallback */
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            margin: 0;
+            padding: 5px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+        }
+        
+        /* 2. Container principal escuro estilo App */
+        .container {
+            background: #23272a;
+            padding: 10px 12px;
+            border-radius: 22px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 420px;
+            height: 92vh;
+            height: calc(100dvh - 16px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            border: 3px solid #36393f;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 3. Título do dinossauro atual em branco */
+        .titulo-dino {
+            flex: 1;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            color: #ffffff; /* Texto claro para contraste */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* 4. Contador de progresso escuro com destaque */
+        .progresso {
+            align-self: center;
+            font-family: 'Fredoka One', cursive;
+            background: #d35400;
+            color: #ffffff;
+            padding: 4px 14px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+        }
+        
+        /* 5. Cards de opções com borda e fundo escuros */
         .opcao-btn {
-            background: #fff;
-            border: 4px solid #dfe6e9;
+            background: #2f3136;
+            border: 3px solid #4f545c;
             border-radius: 18px;
             cursor: pointer;
             overflow: hidden;
             width: 100%;
             height: calc((100% - 20px) / 3);
             max-height: 155px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             transition: all 0.15s ease;
             display: flex;
             align-items: center;
@@ -202,16 +216,6 @@
             height: 100%;
             object-fit: cover;
             border-radius: 12px;
-        }
-
-        .titulo-dino {
-            flex: 1;
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.3rem;
-            color: #444;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .opcao-btn.correta {
@@ -259,8 +263,6 @@
             color:#27ae60;
         }
 
-       
-        
         .end-title{
         
             font-family:'Fredoka One',cursive;
@@ -269,8 +271,6 @@
             margin:5px 0 15px;
         
         }
-        
-        
         
         .end-card{
         
@@ -283,7 +283,6 @@
             padding:18px;
         
             box-shadow:0 5px 15px rgba(0,0,0,.12);
-        
         }
         
         .end-name{
