@@ -92,7 +92,7 @@
             cursor: pointer;
             overflow: hidden;
             width: 220px;
-            height: 220px;
+            height: auto;
             box-shadow: 0 6px 15px rgba(0,0,0,0.08);
             transition: all 0.2s ease;
             display: flex;
@@ -110,9 +110,18 @@
 
         .opcao-btn img {
             width: 100%;
-            height: 100%;
+            height: 180px;
             object-fit: cover;
             border-radius: 14px;
+        }
+
+        .opcao-btn .opcao-nome {
+            font-family: 'Fredoka One', cursive;
+            color: #2d3436;
+            font-size: 1.1rem;
+            margin-top: 6px;
+            margin-bottom: 4px;
+            text-align: center;
         }
 
         #feedback {
@@ -122,6 +131,67 @@
             min-height: 50px;
             font-family: 'Fredoka One', cursive;
         }
+
+        /* --- Otimizações para Mobile --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 8px;
+            }
+
+            .container {
+                padding: 15px 10px;
+                border-radius: 20px;
+                border-width: 3px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 6px;
+            }
+
+            .progresso {
+                font-size: 0.9rem;
+                padding: 4px 12px;
+                margin-bottom: 12px;
+            }
+
+            #audio-btn {
+                padding: 8px 20px;
+                font-size: 1rem;
+                margin-bottom: 15px;
+            }
+
+            .opcoes-container {
+                gap: 12px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .opcao-btn {
+                width: 100%;
+                max-width: 340px;
+                border-width: 3px;
+                border-radius: 16px;
+                padding: 4px;
+            }
+
+            .opcao-btn img {
+                height: auto;
+                aspect-ratio: 16 / 9; /* Formato horizontal/landscape */
+                border-radius: 10px;
+            }
+
+            .opcao-btn .opcao-nome {
+                font-size: 1rem;
+                margin-top: 4px;
+            }
+
+            #feedback {
+                margin-top: 15px;
+                font-size: 1.1rem;
+                min-height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -130,7 +200,7 @@
         <h1>XXXXX Dino Quiz 🦖</h1>
         <div class="progresso" id="texto-progresso">Pergunta 1 de 30</div>
         
-        <button id="audio-btn" onclick="falarPerguntaAtual()">🔊</button>
+        <button id="audio-btn" onclick="falarPerguntaAtual()">🔊 Ouvir Pergunta</button>
 
         <div class="opcoes-container" id="opcoes"></div>
 
@@ -458,7 +528,7 @@
 
         function carregarPergunta() {
             const atual = quizData[indiceAtual];
-            document.getElementById('texto-progresso').innerText = `Pergunta ${indiceAtual + 1} de 30`;
+            document.getElementById('texto-progresso').innerText = `Pergunta ${indiceAtual + 1} de ${quizData.length}`;
             document.getElementById('feedback').innerText = "";
             
             const containerOpcoes = document.getElementById('opcoes');
@@ -467,8 +537,10 @@
             atual.opcoes.forEach((opcao, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'opcao-btn';
-                // Se a imagem falhar ao carregar, mostra o nome dela para ajudar a debugar o caminho no GitHub
-                btn.innerHTML = `<img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/220/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">`;
+                btn.innerHTML = `
+                    <img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/320x180/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">
+                    <span class="opcao-nome">${opcao.nome}</span>
+                `;
                 btn.onclick = () => verificarResposta(index);
                 containerOpcoes.appendChild(btn);
             });
