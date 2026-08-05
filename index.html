@@ -15,11 +15,12 @@
         body {
             background: linear-gradient(135deg, #a8ede0 0%, #fed6e3 100%);
             margin: 0;
-            padding: 10px;
+            padding: 5px; /* Reduz o padding externo */
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Subi o container para o topo da viewport */
             justify-content: center;
             min-height: 100vh;
+            min-height: 100dvh; /* Usa a altura real e dinâmica da tela do celular */
             font-family: 'Quicksand', sans-serif;
             overflow: hidden;
         }
@@ -27,18 +28,18 @@
         /* Container Full Vertical (Estilo App de Celular) */
         .container {
             background: white;
-            padding: 13px;
-            border-radius: 25px;
+            padding: 10px 12px; /* Reduz o padding interno vertical de 13px para 10px */
+            border-radius: 22px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             width: 100%;
             max-width: 420px;
-            height: 84vh;
-            max-height: 765px;
+            height: 96%; /* Ocupa quase a totalidade da área disponível */
+            max-height: 98dvh; /* Garante que respeite a barra do navegador do celular */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            border: 5px solid #fff;
+            border: 4px solid #fff;
             position: relative;
             overflow: hidden;
         }
