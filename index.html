@@ -14,34 +14,43 @@
         body {
             background: linear-gradient(135deg, #a8ede0 0%, #fed6e3 100%);
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             font-family: 'Quicksand', sans-serif;
         }
 
+        /* Container principal em proporção 16:9 deitada */
         .container {
             background: white;
-            padding: 25px;
-            border-radius: 30px;
+            padding: 20px;
+            border-radius: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            max-width: 800px;
             width: 100%;
+            max-width: 960px;
+            aspect-ratio: 16 / 9;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: space-between;
             border: 6px solid #fff;
+        }
+
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 10px;
         }
 
         h1 {
             font-family: 'Fredoka One', cursive;
             color: #ff5252;
-            font-size: 2.2rem;
-            text-align: center;
-            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+            margin: 0;
             text-shadow: 2px 2px 0px #ffe082;
         }
 
@@ -49,27 +58,25 @@
             font-family: 'Fredoka One', cursive;
             background: #ffe082;
             color: #d35400;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 1rem;
         }
 
         #audio-btn {
             background: linear-gradient(45deg, #ff9f43, #ff6b6b);
             color: white;
             border: none;
-            padding: 14px 30px;
-            font-size: 1.3rem;
+            padding: 8px 20px;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
             font-family: 'Fredoka One', cursive;
             transition: transform 0.2s, filter 0.2s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         #audio-btn:hover {
@@ -77,60 +84,64 @@
             filter: brightness(1.1);
         }
 
+        /* Container de opções: 1 abaixo do outro em coluna */
         .opcoes-container {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-direction: column;
+            gap: 12px;
             width: 100%;
+            max-width: 600px;
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
         }
 
+        /* Cards em formato horizontal (estilo faixa) */
         .opcao-btn {
             background: #fff;
-            border: 4px solid #dfe6e9;
-            border-radius: 20px;
+            border: 3px solid #dfe6e9;
+            border-radius: 15px;
             cursor: pointer;
             overflow: hidden;
-            width: 220px;
-            height: 220px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            width: 100%;
+            height: 75px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
             transition: all 0.2s ease;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 5px;
+            padding: 4px;
         }
 
         .opcao-btn:hover {
-            transform: translateY(-5px);
+            transform: scale(1.02);
             border-color: #ff6b6b;
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
         }
 
         .opcao-btn img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 14px;
+            border-radius: 10px;
         }
 
         #feedback {
-            margin-top: 25px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-align: center;
-            min-height: 50px;
+            min-height: 35px;
             font-family: 'Fredoka One', cursive;
+            margin: 0;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Roar! O Quiz dos Dinossauros 🦖</h1>
-        <div class="progresso" id="texto-progresso">Pergunta 1 de 10</div>
-        
-        <button id="audio-btn" onclick="falarPerguntaAtual()">🔊 Ouvir Pergunta Novamente</button>
+        <div class="header-section">
+            <h1>Roar! Dinossauros 🦖</h1>
+            <button id="audio-btn" onclick="falarPerguntaAtual()">🔊 Ouvir</button>
+            <div class="progresso" id="texto-progresso">1 de 10</div>
+        </div>
 
         <div class="opcoes-container" id="opcoes"></div>
 
@@ -144,9 +155,9 @@
                 correto: 0,
                 explicacao: "O Tiranossauro Rex tinha dentes gigantescos e braços bem curtinhos!",
                 opcoes: [
-                    { nome: "T-Rex", img: "imagens/trex.png" },
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "T-Rex", img: "imagens/trex.jpg" },
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             },
             {
@@ -154,9 +165,9 @@
                 correto: 1,
                 explicacao: "O Triceratops usava seus três chifres e o escudo ósseo para se defender!",
                 opcoes: [
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Braquiossauro", img: "imagens/braquiossauro.png" }
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Braquiossauro", img: "imagens/braquiossauro.jpg" }
                 ]
             },
             {
@@ -164,9 +175,9 @@
                 correto: 2,
                 explicacao: "O Velociraptor era ágil e caçava em grupo!",
                 opcoes: [
-                    { nome: "Anquilossauro", img: "imagens/anquilossauro.png" },
-                    { nome: "Alossauro", img: "imagens/alossauro.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "Anquilossauro", img: "imagens/anquilossauro.jpg" },
+                    { nome: "Alossauro", img: "imagens/alossauro.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             },
             {
@@ -174,9 +185,9 @@
                 correto: 0,
                 explicacao: "O Estegossauro tinha placas grandes nas costas e espinhos no rabo!",
                 opcoes: [
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "T-Rex", img: "imagens/trex.png" },
-                    { nome: "Diplodoco", img: "imagens/diplodoco.png" }
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "T-Rex", img: "imagens/trex.jpg" },
+                    { nome: "Diplodoco", img: "imagens/diplodoco.jpg" }
                 ]
             },
             {
@@ -184,9 +195,9 @@
                 correto: 1,
                 explicacao: "O Braquiossauro comia as folhas mais altas das árvores com seu pescoço comprido!",
                 opcoes: [
-                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.png" },
-                    { nome: "Braquiossauro", img: "imagens/braquiossauro.png" },
-                    { nome: "Espinossauro", img: "imagens/espinossauro.png" }
+                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.jpg" },
+                    { nome: "Braquiossauro", img: "imagens/braquiossauro.jpg" },
+                    { nome: "Espinossauro", img: "imagens/espinossauro.jpg" }
                 ]
             },
             {
@@ -194,9 +205,9 @@
                 correto: 2,
                 explicacao: "O Espinossauro adorava a água e comia peixes grandões!",
                 opcoes: [
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Alossauro", img: "imagens/alossauro.png" },
-                    { nome: "Espinossauro", img: "imagens/espinossauro.png" }
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Alossauro", img: "imagens/alossauro.jpg" },
+                    { nome: "Espinossauro", img: "imagens/espinossauro.jpg" }
                 ]
             },
             {
@@ -204,9 +215,9 @@
                 correto: 0,
                 explicacao: "O Anquilossauro tinha uma carapaça dura e uma clava pesada na ponta da cauda!",
                 opcoes: [
-                    { nome: "Anquilossauro", img: "imagens/anquilossauro.png" },
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "Anquilossauro", img: "imagens/anquilossauro.jpg" },
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             },
             {
@@ -214,9 +225,9 @@
                 correto: 1,
                 explicacao: "O Alossauro era um caçador feroz com dentes afiados como serras!",
                 opcoes: [
-                    { nome: "T-Rex", img: "imagens/trex.png" },
-                    { nome: "Alossauro", img: "imagens/alossauro.png" },
-                    { nome: "Braquiossauro", img: "imagens/braquiossauro.png" }
+                    { nome: "T-Rex", img: "imagens/trex.jpg" },
+                    { nome: "Alossauro", img: "imagens/alossauro.jpg" },
+                    { nome: "Braquiossauro", img: "imagens/braquiossauro.jpg" }
                 ]
             },
             {
@@ -224,9 +235,9 @@
                 correto: 2,
                 explicacao: "O Diplodoco era tão comprido que sua cauda parecia um chicote!",
                 opcoes: [
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Anquilossauro", img: "imagens/anquilossauro.png" },
-                    { nome: "Diplodoco", img: "imagens/diplodoco.png" }
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Anquilossauro", img: "imagens/anquilossauro.jpg" },
+                    { nome: "Diplodoco", img: "imagens/diplodoco.jpg" }
                 ]
             },
             {
@@ -234,9 +245,9 @@
                 correto: 0,
                 explicacao: "O Paquicefalossauro tinha o topo da cabeça bem grosso e duro!",
                 opcoes: [
-                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.png" },
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.jpg" },
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             }
         ];
@@ -258,7 +269,7 @@
 
         function carregarPergunta() {
             const atual = quizData[indiceAtual];
-            document.getElementById('texto-progresso').innerText = `Pergunta ${indiceAtual + 1} de 10`;
+            document.getElementById('texto-progresso').innerText = `${indiceAtual + 1} de 10`;
             document.getElementById('feedback').innerText = "";
             
             const containerOpcoes = document.getElementById('opcoes');
@@ -267,7 +278,7 @@
             atual.opcoes.forEach((opcao, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'opcao-btn';
-                btn.innerHTML = `<img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/220/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">`;
+                btn.innerHTML = `<img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x75/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">`;
                 btn.onclick = () => verificarResposta(index);
                 containerOpcoes.appendChild(btn);
             });
@@ -292,7 +303,7 @@
                         if (indiceAtual < quizData.length) {
                             carregarPergunta();
                         } else {
-                            document.getElementById('texto-progresso').innerText = "Fim do Jogo!";
+                            document.getElementById('texto-progresso').innerText = "Fim!";
                             document.getElementById('opcoes').innerHTML = "";
                             document.getElementById('audio-btn').style.display = "none";
                             feedbackDiv.innerText = "🏆 Você completou o quiz! Parabéns campeão!";
