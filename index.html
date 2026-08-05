@@ -373,23 +373,21 @@
             </div>        
         
 
-        <!-- Conteúdo do Quiz -->
+        <!-- Cabeçalho envelopado dentro do card estilo retangular -->
         <div class="header-section">
-            
-        <!-- Nome do dinossauro + botão de áudio -->
-        <div class="top-bar">
-            <div class="titulo-dino" id="nome-dino">
-                T-Rex
+            <div class="top-bar">
+                <div class="titulo-dino" id="nome-dino">
+                    T-Rex
+                </div>
+        
+                <button id="audio-btn" onclick="falarPerguntaAtual()" aria-label="Ouvir pergunta">
+                    🔊
+                </button>
             </div>
-    
-            <button id="audio-btn" onclick="falarPerguntaAtual()" aria-label="Ouvir pergunta">
-                🔊
-            </button>
-        </div>
-    
-        <!-- Progresso -->
-        <div class="progresso" id="texto-progresso">
-            1 de 10
+        
+            <div class="progresso" id="texto-progresso">
+                1 de 10
+            </div>
         </div>
     </div>
     
