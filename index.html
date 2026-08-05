@@ -324,6 +324,25 @@
     
     }
 
+    .end-image{
+
+        animation: aparecer .8s ease;
+    }
+    
+    @keyframes aparecer{
+    
+        from{
+            transform:scale(.3) rotate(-10deg);
+            opacity:0;
+        }
+    
+        to{
+            transform:scale(1);
+            opacity:1;
+        }
+    
+    }
+
     </style>
 </head>
 <body>
@@ -617,7 +636,7 @@
                 // Desabilita todos os botões
                 botoes.forEach(btn => btn.disabled = true);
         
-                falar("Muito bem! Acertou! " + atual.explicacao, () => {
+                falar("Muito bem Lucas! " + atual.explicacao, () => {
         
                     setTimeout(() => {
                         indiceAtual++;
