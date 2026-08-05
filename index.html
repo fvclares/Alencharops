@@ -132,64 +132,74 @@
             font-family: 'Fredoka One', cursive;
         }
 
-        /* --- Otimizações para Mobile --- */
+        /* --- Otimização Especial Mobile (Layout 16:9 sem Scroll) --- */
         @media (max-width: 600px) {
             body {
-                padding: 8px;
+                padding: 6px;
             }
 
             .container {
-                padding: 15px 10px;
+                padding: 12px 8px;
                 border-radius: 20px;
                 border-width: 3px;
             }
 
             h1 {
-                font-size: 1.5rem;
-                margin-bottom: 6px;
+                font-size: 1.3rem;
+                margin-bottom: 4px;
             }
 
             .progresso {
-                font-size: 0.9rem;
-                padding: 4px 12px;
-                margin-bottom: 12px;
+                font-size: 0.85rem;
+                padding: 3px 10px;
+                margin-bottom: 8px;
             }
 
             #audio-btn {
-                padding: 8px 20px;
-                font-size: 1rem;
-                margin-bottom: 15px;
+                padding: 6px 16px;
+                font-size: 0.95rem;
+                margin-bottom: 10px;
             }
 
+            /* Exibe as 3 opções lado a lado no mobile */
             .opcoes-container {
-                gap: 12px;
-                flex-direction: column;
-                align-items: center;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+                width: 100%;
             }
 
             .opcao-btn {
                 width: 100%;
-                max-width: 340px;
-                border-width: 3px;
-                border-radius: 16px;
-                padding: 4px;
+                max-width: 100%;
+                border-width: 2px;
+                border-radius: 12px;
+                padding: 3px;
             }
 
+            /* Imagens bem horizontais para caber perfeitamente na tela */
             .opcao-btn img {
-                height: auto;
-                aspect-ratio: 16 / 9; /* Formato horizontal/landscape */
-                border-radius: 10px;
+                width: 100%;
+                height: 70px; /* Reduzido verticalmente */
+                aspect-ratio: 16 / 9;
+                object-fit: cover;
+                border-radius: 8px;
             }
 
             .opcao-btn .opcao-nome {
-                font-size: 1rem;
-                margin-top: 4px;
+                font-size: 0.75rem;
+                margin-top: 2px;
+                margin-bottom: 2px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
             }
 
             #feedback {
-                margin-top: 15px;
-                font-size: 1.1rem;
-                min-height: 40px;
+                margin-top: 10px;
+                font-size: 0.95rem;
+                min-height: 35px;
             }
         }
     </style>
@@ -538,7 +548,7 @@
                 const btn = document.createElement('button');
                 btn.className = 'opcao-btn';
                 btn.innerHTML = `
-                    <img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/320x180/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">
+                    <img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/160x90/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">
                     <span class="opcao-nome">${opcao.nome}</span>
                 `;
                 btn.onclick = () => verificarResposta(index);
