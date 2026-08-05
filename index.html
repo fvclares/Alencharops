@@ -371,6 +371,10 @@
 </head>
 <body>
 
+    <audio id="musica-fundo" loop>
+        <source src="audio/musica-jurassica.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container">
         <!-- Tela de Início -->
         <div id="start-screen">
@@ -586,10 +590,21 @@
             }
         ];
 
+        const musicaFundo = document.getElementById("musica-fundo");
+
+        musicaFundo.volume = 0.7; 
+        
         let indiceAtual = 0;
 
         function iniciarQuiz() {
+        
             document.getElementById('start-screen').style.display = 'none';
+        
+            // inicia música após clique do usuário
+            musicaFundo.play().catch(() => {
+                console.log("Música aguardando interação");
+            });
+        
             carregarPergunta();
         }
 
