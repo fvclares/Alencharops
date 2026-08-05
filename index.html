@@ -2,13 +2,14 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quiz dos Dinossauros</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -20,36 +21,46 @@
             justify-content: center;
             min-height: 100vh;
             font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
         }
 
-        /* Container principal em proporção 16:9 deitada */
+        /* Container Full Vertical (Estilo App de Celular) */
         .container {
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             width: 100%;
-            max-width: 960px;
-            aspect-ratio: 16 / 9;
+            max-width: 420px;
+            height: 94vh;
+            max-height: 850px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            border: 6px solid #fff;
+            border: 5px solid #fff;
         }
 
         .header-section {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
             width: 100%;
-            padding: 0 10px;
+            gap: 8px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 5px;
         }
 
         h1 {
             font-family: 'Fredoka One', cursive;
             color: #ff5252;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin: 0;
             text-shadow: 2px 2px 0px #ffe082;
         }
@@ -58,16 +69,16 @@
             font-family: 'Fredoka One', cursive;
             background: #ffe082;
             color: #d35400;
-            padding: 5px 12px;
+            padding: 4px 12px;
             border-radius: 15px;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         #audio-btn {
             background: linear-gradient(45deg, #ff9f43, #ff6b6b);
             color: white;
             border: none;
-            padding: 8px 20px;
+            padding: 10px 20px;
             font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
@@ -76,61 +87,67 @@
             transition: transform 0.2s, filter 0.2s;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            width: 100%;
+            margin-top: 5px;
         }
 
-        #audio-btn:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
+        #audio-btn:active {
+            transform: scale(0.95);
         }
 
-        /* Container de opções: 1 abaixo do outro em coluna */
+        /* Container de opções: 3 cards grandes empilhados verticalmente */
         .opcoes-container {
             display: flex;
             flex-direction: column;
             gap: 12px;
             width: 100%;
-            max-width: 600px;
             flex-grow: 1;
             justify-content: center;
             align-items: center;
+            margin: 10px 0;
         }
 
-        /* Cards em formato horizontal (estilo faixa) */
+        /* Cards grandes verticais para toque fácil da criança */
         .opcao-btn {
             background: #fff;
-            border: 3px solid #dfe6e9;
-            border-radius: 15px;
+            border: 4px solid #dfe6e9;
+            border-radius: 18px;
             cursor: pointer;
             overflow: hidden;
             width: 100%;
-            height: 75px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            transition: all 0.2s ease;
+            height: calc((100% - 24px) / 3);
+            max-height: 175px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.15s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 4px;
         }
 
-        .opcao-btn:hover {
-            transform: scale(1.02);
+        .opcao-btn:active {
+            transform: scale(0.97);
             border-color: #ff6b6b;
-            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
         }
 
         .opcao-btn img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 12px;
         }
 
         #feedback {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-align: center;
-            min-height: 35px;
+            min-height: 45px;
             font-family: 'Fredoka One', cursive;
             margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -138,9 +155,11 @@
 
     <div class="container">
         <div class="header-section">
-            <h1>Roar! Dinossauros 🦖</h1>
-            <button id="audio-btn" onclick="falarPerguntaAtual()">🔊 Ouvir</button>
-            <div class="progresso" id="texto-progresso">1 de 10</div>
+            <div class="top-bar">
+                <h1>Roar! Dinossauros 🦖</h1>
+                <div class="progresso" id="texto-progresso">1 de 10</div>
+            </div>
+            <button id="audio-btn" onclick="falarPerguntaAtual()">🔊 Ouvir Pergunta</button>
         </div>
 
         <div class="opcoes-container" id="opcoes"></div>
@@ -278,7 +297,7 @@
             atual.opcoes.forEach((opcao, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'opcao-btn';
-                btn.innerHTML = `<img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x75/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">`;
+                btn.innerHTML = `<img src="${opcao.img}" alt="${opcao.nome}" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x150/ff7675/fff?text=${encodeURIComponent(opcao.nome)}';">`;
                 btn.onclick = () => verificarResposta(index);
                 containerOpcoes.appendChild(btn);
             });
