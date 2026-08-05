@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Dinossauros</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            user-select: none;
+        }
+        body {
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #d32f2f;
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .card-pergunta {
+            background: #fff;
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            font-size: 1.8rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+            max-width: 600px;
+            width: 100%;
+            border: 4px dashed #ff9800;
+        }
+        .opcoes-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 800px;
+        }
+        .opcao-btn {
+            background: white;
+            border: 5px solid #4caf50;
+            border-radius: 20px;
+            cursor: pointer;
+            overflow: hidden;
+            width: 220px;
+            height: 220px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, background-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .opcao-btn:hover {
+            transform: scale(1.05);
+        }
+        .opcao-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #audio-btn {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #feedback {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #388e3c;
+            text-align: center;
+            max-width: 600px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Roar! O Quiz dos Dinossauros 🦖</h1>
+    
+    <button id="audio-btn" onclick="falarPerguntaAtual()">🔊 Ouvir Pergunta</button>
+
+    <div class="card-pergunta" id="texto-pergunta">Carregando...</div>
+
+    <div class="opcoes-container" id="opcoes"></div>
+
+    <div id="feedback"></div>
+
+    <script>
+        const quizData = [
+            {
+                pergunta: "Qual deles é o Tiranossauro Rex, o rei dos predadores?",
+                correto: 0,
+                explicacao: "O Tiranossauro Rex tinha dentes gigantescos e braços bem curtinhos!",
+                opcoes: [
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Triceratops, que tem três chifres na cabeça?",
+                correto: 1,
+                explicacao: "O Triceratops usava seus três chifres e o escudo ósseo para se defender!",
+                opcoes: [
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Velociraptor, um caçador muito rápido e inteligente?",
+                correto: 2,
+                explicacao: "O Velociraptor era ágil e caçava em grupo!",
+                opcoes: [
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Anquilossauro", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Braquiossauro, que tem um pescoço gigante?",
+                correto: 0,
+                explicacao: "O Braquiossauro comia as folhas mais altas das árvores com seu pescoço comprido!",
+                opcoes: [
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" },
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Estegossauro, que tem placas nas costas?",
+                correto: 1,
+                explicacao: "O Estegossauro tinha placas grandes nas costas e espinhos no rabo!",
+                opcoes: [
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Pterodáctilo, que voa pelos céus?",
+                correto: 2,
+                explicacao: "O Pterodáctilo não era um dinossauro de verdade, mas sim um réptil voador!",
+                opcoes: [
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" },
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Anquilossauro, que parece um tanque blindado?",
+                correto: 0,
+                explicacao: "O Anquilossauro tinha uma carapaça dura e uma clava pesada na ponta da cauda!",
+                opcoes: [
+                    { nome: "Anquilossauro", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Espinossauro, que tem uma vela enorme nas costas?",
+                correto: 1,
+                explicacao: "O Espinossauro adorava a água e comia peixes grandões!",
+                opcoes: [
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Espinossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" },
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Diplodoco, famoso por sua cauda em forma de chicote?",
+                correto: 2,
+                explicacao: "O Diplodoco era tão comprido que sua cauda parecia um chicote!",
+                opcoes: [
+                    { nome: "Anquilossauro", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" },
+                    { nome: "Diplodoco", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o parassaurolofo, que tem uma crista comprida na cabeça?",
+                correto: 0,
+                explicacao: "O parassaurolofo usava a crista na cabeça para fazer sons parecidos com uma corneta!",
+                opcoes: [
+                    { nome: "Parassaurolofo", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Carnotauro, que tem dois chifres pequenos na testa parecendo um touro?",
+                correto: 1,
+                explicacao: "O Carnotauro era um predador rápido com braços ainda menores que os do T-Rex!",
+                opcoes: [
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Carnotauro", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Paquicefalossauro, que tem a cabeça dura como um capacete?",
+                correto: 2,
+                explicacao: "O Paquicefalossauro tinha o topo da cabeça bem grosso e duro!",
+                opcoes: [
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Paquicefalossauro", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Arquelone, uma tartaruga marinha gigante da pré-história?",
+                correto: 0,
+                explicacao: "O Arquelone nadava nos oceanos antigos e era maior que uma mesa!",
+                opcoes: [
+                    { nome: "Arquelone", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" },
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Mosassauro, o gigante nadador dos mares?",
+                correto: 1,
+                explicacao: "O Mosassauro era um réptil marinho super poderoso e enorme!",
+                opcoes: [
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" },
+                    { nome: "Mosassauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" },
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Iguanodon, que tinha um polegar em forma de esporão?",
+                correto: 2,
+                explicacao: "O Iguanodon usava seu polegar pontudo para se defender dos inimigos!",
+                opcoes: [
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Iguanodon", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Gallimimus, que corria igual a uma avestruz?",
+                correto: 0,
+                explicacao: "O Gallimimus era muito magro e veloz, correndo longe dos predadores!",
+                opcoes: [
+                    { nome: "Gallimimus", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Dilofossauro, que tinha duas cristas redondas no topo da cabeça?",
+                correto: 1,
+                explicacao: "O Dilofossauro era um dinossauro carnívoro ágil e muito elegante!",
+                opcoes: [
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "Dilofossauro", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Terizinossauro, famoso por suas garras super longas?",
+                correto: 2,
+                explicacao: "O Terizinossauro tinha as maiores garras da história, parecendo tesouros gigantes!",
+                opcoes: [
+                    { nome: "Anquilossauro", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Terizinossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Argentinossauro, um dos maiores animais que já pisaram na Terra?",
+                correto: 0,
+                explicacao: "O Argentinossauro era tão pesado quanto vários elefantes juntos!",
+                opcoes: [
+                    { nome: "Argentinossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" },
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Pteranhaode, um voador com uma crista gigante na cabeça?",
+                correto: 1,
+                explicacao: "O Pteranhaode planava sobre o mar caçando peixinhos com seu bico comprido!",
+                opcoes: [
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "Pteranhaode", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" },
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Estiracossauro, que tem vários chifres enfeitando o escudo?",
+                correto: 2,
+                explicacao: "O Estiracossauro parecia ter uma coroa de espinhos ao redor da cabeça!",
+                opcoes: [
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Estiracossauro", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Compsognato, um dos menores dinossauros do mundo?",
+                correto: 0,
+                explicacao: "O Compsognato era pequenininho, do tamanho de uma galinha!",
+                opcoes: [
+                    { nome: "Compsognato", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Anquilossauro", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Maiassaura, conhecido como o lagarto boa mãe?",
+                correto: 1,
+                explicacao: "A Maiassaura cuidava muito bem dos seus ninhos e filhotinhos!",
+                opcoes: [
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "Maiassaura", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Baryonyx, um predador que usava sua garra para pescar?",
+                correto: 2,
+                explicacao: "O Baryonyx tinha uma garra em formato de gancho perfeita para pegar peixe!",
+                opcoes: [
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Baryonyx", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Protoceratops, um dinossauro herbívoro de pequeno porte?",
+                correto: 0,
+                explicacao: "O Protoceratops andava em batedeiras e tinha um bico forte para comer plantas duras!",
+                opcoes: [
+                    { nome: "Protoceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" },
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Pachycephalosaurus de novo, o cabeçudo resistente?",
+                correto: 1,
+                explicacao: "Ele usava o topo da cabeça grossa para disputar território com outros dinos!",
+                opcoes: [
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Paquicefalossauro", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Quetzalcoatlus, um dos maiores animais voadores que já existiram?",
+                correto: 2,
+                explicacao: "O Quetzalcoatlus tinha asas do tamanho de um avião pequeno!",
+                opcoes: [
+                    { nome: "Velociraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Quetzalcoatlus", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Trodon, considerado um dos dinossauros mais inteligentes?",
+                correto: 0,
+                explicacao: "O Trodon tinha olhos grandes e enxergava muito bem à noite!",
+                opcoes: [
+                    { nome: "Trodon", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" },
+                    { nome: "T-Rex", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Braquiossauro", img: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Albertassauro, um grande primo do T-Rex?",
+                correto: 1,
+                explicacao: "O Albertassauro era um caçador veloz e feroz que vivia na floresta!",
+                opcoes: [
+                    { nome: "Triceratops", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" },
+                    { nome: "Albertassauro", img: "https://images.unsplash.com/photo-1606851094095-d72bde6f4974?w=400" },
+                    { nome: "Anquilossauro", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=400" }
+                ]
+            },
+            {
+                pergunta: "Qual deles é o Microraptor, um dinossauro pequenininho com quatro asas emplumadas?",
+                correto: 2,
+                explicacao: "O Microraptor planava de árvore em árvore igualzinho a um passarinho moderno!",
+                opcoes: [
+                    { nome: "Pterodáctilo", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" },
+                    { nome: "Estegossauro", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=400" },
+                    { nome: "Microraptor", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" }
+                ]
+            }
+        ];
+
+        let indiceAtual = 0;
+
+        function falar(texto, callback) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(texto);
+                utterance.lang = 'pt-BR';
+                utterance.rate = 0.9;
+                if (callback) utterance.onend = callback;
+                window.speechSynthesis.speak(utterance);
+            } else if (callback) {
+                callback();
+            }
+        }
+
+        function carregarPergunta() {
+            const atual = quizData[indiceAtual];
+            document.getElementById('texto-pergunta').innerText = `Pergunta ${indiceAtual + 1} de 30: ${atual.pergunta}`;
+            document.getElementById('feedback').innerText = "";
+            
+            const containerOpcoes = document.getElementById('opcoes');
+            containerOpcoes.innerHTML = '';
+
+            atual.opcoes.forEach((opcao, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'opcao-btn';
+                btn.innerHTML = `<img src="${opcao.img}" alt="${opcao.nome}">`;
+                btn.onclick = () => verificarResposta(index);
+                containerOpcoes.appendChild(btn);
+            });
+
+            falar(atual.pergunta);
+        }
+
+        function falarPerguntaAtual() {
+            falar(quizData[indiceAtual].pergunta);
+        }
+
+        function verificarResposta(selecionado) {
+            const atual = quizData[indiceAtual];
+            const feedbackDiv = document.getElementById('feedback');
+
+            if (selecionado === atual.correto) {
+                feedbackDiv.style.color = "#388e3c";
+                feedbackDiv.innerText = "🎉 Acertou! " + atual.explicacao;
+                falar("Muito bem! Acertou! " + atual.explicacao, () => {
+                    setTimeout(() => {
+                        indiceAtual++;
+                        if (indiceAtual < quizData.length) {
+                            carregarPergunta();
+                        } else {
+                            document.getElementById('texto-pergunta').innerText = "Você terminou o quiz! Parabéns!";
+                            document.getElementById('opcoes').innerHTML = "";
+                            falar("Parabéns, você completou o quiz de todos os dinossauros!");
+                        }
+                    }, 2000);
+                });
+            } else {
+                feedbackDiv.style.color = "#d32f2f";
+                feedbackDiv.innerText = "Ops! Tente de novo!";
+                falar("Ops, tente outro dinossauro!");
+            }
+        }
+
+        window.onload = () => {
+            carregarPergunta();
+        };
+    </script>
+</body>
+</html>
