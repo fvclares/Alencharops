@@ -303,19 +303,16 @@
         }
         
         #end-screen {
-            position:absolute;
-            inset:0;
-        
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        
-            background:
-                radial-gradient(circle, #fff7cc 0%, #ffe082 70%);
-        
-            z-index:20;
-        
-            overflow:hidden;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #fff7cc 0%, #ffe082 70%);
+            z-index: 20;
+            padding: 20px;
+            gap: 20px;
         }
         
         
@@ -414,6 +411,7 @@
             </div>
 
             <!-- Tela Final -->
+            
             <div id="end-screen" style="display:none;">
             
                 <h1 class="end-title">🏆 Parabéns, Lucas! 🦖</h1>
@@ -423,40 +421,7 @@
                     alt="Alencarossauro"
                     class="end-image">
             
-                <div class="end-card">
-            
-                    <h2>Você encontrou o lendário...</h2>
-            
-                    <div class="end-name">
-                        🦕 A L E N C A R O S S A U R O
-                    </div>
-            
-                    <p>
-                        Uma espécie extremamente rara!
-                    </p>
-            
-                    <p>
-                        Durante o dia ele trabalha no banco...
-                    </p>
-            
-                    <p>
-                        Mas quando chega em casa...
-                    </p>
-            
-                    <p>
-                        Ele coloca o chapéu de cozinheiro e prepara as comidas mais deliciosas do Nordeste!
-                        🌶️🍲
-                    </p>
-            
-                    <p>
-                        Dizem que o Alencarossauro é um dos dinossauros mais carinhosos do mundo e adora brincar com o Lucas!
-                        ❤️
-                    </p>
-            
-                </div>
-            
-            </div>
-        
+            </div>        
         
 
         <!-- Conteúdo do Quiz -->
@@ -645,12 +610,23 @@
             falar(quizData[indiceAtual].pergunta);
         }
 
-        function mostrarTelaFinal(){
-
-            document.querySelector(".header-section").style.display="none";
-            document.getElementById("opcoes").style.display="none";
+        function mostrarTelaFinal() {
+            // Esconde a interface do quiz
+            document.querySelector(".header-section").style.display = "none";
+            document.getElementById("opcoes").style.display = "none";
         
-            document.getElementById("end-screen").style.display="flex";
+            // Exibe a tela final
+            document.getElementById("end-screen").style.display = "flex";
+        
+            // Texto da historinha falada
+            const historiaFinal = "Parabéns, Lucas! Você encontrou o lendário Alencarossauro! " +
+                "Uma espécie extremamente rara. Durante o dia ele trabalha no banco, " +
+                "mas quando chega em casa, ele coloca o chapéu de cozinheiro e prepara as comidas mais deliciosas do Nordeste! " +
+                "Dizem que o Alencarossauro é um dos dinossauros mais carinhosos do mundo e adora brincar com o Lucas!";
+        
+            // Fala a historinha
+            falar(historiaFinal);
+        }
 
 }
         
