@@ -28,13 +28,13 @@
         /* Container Full Vertical (Estilo App de Celular) */
         .container {
             background: white;
-            padding: 10px 12px; /* Reduz o padding interno vertical de 13px para 10px */
+            padding: 10px 12px;
             border-radius: 22px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             width: 100%;
             max-width: 420px;
-            height: 96%; /* Ocupa quase a totalidade da área disponível */
-            max-height: 98dvh; /* Garante que respeite a barra do navegador do celular */
+            height: 92vh; /* Usa viewport height estável */
+            height: calc(100dvh - 16px); /* Ajuste exato à tela do celular descontando a margem */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,16 +51,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Imagem de fundo da capa + gradiente suave */
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('imagens/capa.png') center/cover no-repeat;
-            background-color: #2ecc71; /* Fallback de cor verde pré-histórica */
+            background-color: #2ecc71;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 40px 20px;
+            padding: 20px 15px; /* Reduzido de 40px para 20px para economizar espaço vertical */
             z-index: 10;
             text-align: center;
+            overflow-y: auto; /* Garante que todo o texto + botão fiquem acessíveis */
         }
 
         .start-title {
@@ -232,15 +232,15 @@
             width:100%;
         }
         
-        .start-message{
-            background:rgba(255,255,255,.88);
-            border-radius:20px;
-            padding:18px;
-            color:#2d3436;
-            line-height:1.45;
-            font-size:1.05rem;
-            text-align:center;
-            box-shadow:0 6px 18px rgba(0,0,0,.15);
+        .start-message {
+            background: rgba(255,255,255,.88);
+            border-radius: 20px;
+            padding: 12px 15px; /* Padding reduzido ligeiramente */
+            color: #2d3436;
+            line-height: 1.35;
+            font-size: 0.95rem; /* Ajuste leve para caber melhor no viewport de smartphones */
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,.15);
         }
         
         .start-message p{
