@@ -199,16 +199,6 @@
             border-radius: 12px;
         }
 
-        #feedback {
-            font-size: 1rem;
-            text-align: center;
-            min-height: 38px;
-            font-family: 'Fredoka One', cursive;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
     </style>
 </head>
 <body>
@@ -234,7 +224,7 @@
 
         <div class="opcoes-container" id="opcoes"></div>
 
-        <div id="feedback"></div>
+        
     </div>
 
     <script>
@@ -364,7 +354,7 @@
         function carregarPergunta() {
             const atual = quizData[indiceAtual];
             document.getElementById('texto-progresso').innerText = `${indiceAtual + 1} de 10`;
-            document.getElementById('feedback').innerText = "";
+            
             
             const containerOpcoes = document.getElementById('opcoes');
             containerOpcoes.innerHTML = '';
@@ -386,11 +376,10 @@
 
         function verificarResposta(selecionado) {
             const atual = quizData[indiceAtual];
-            const feedbackDiv = document.getElementById('feedback');
+            
 
             if (selecionado === atual.correto) {
-                feedbackDiv.style.color = "#27ae60";
-                feedbackDiv.innerText = "🎉 Acertou! " + atual.explicacao;
+                
                 falar("Muito bem! Acertou! " + atual.explicacao, () => {
                     setTimeout(() => {
                         indiceAtual++;
