@@ -258,6 +258,72 @@
             color:#27ae60;
         }
 
+        #end-screen{
+        position:absolute;
+        inset:0;
+    
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:flex-start;
+    
+        padding:20px;
+    
+        background:linear-gradient(180deg,#fff7cc,#ffe082);
+    
+        z-index:20;
+    
+        text-align:center;
+    }
+    
+    .end-title{
+    
+        font-family:'Fredoka One',cursive;
+        color:#ff6b00;
+        font-size:1.8rem;
+        margin:5px 0 15px;
+    
+    }
+    
+    .end-image{
+    
+        width:85%;
+        max-width:280px;
+    
+        border-radius:20px;
+    
+        border:6px solid white;
+    
+        box-shadow:0 8px 20px rgba(0,0,0,.25);
+    
+    }
+    
+    .end-card{
+    
+        margin-top:15px;
+    
+        background:white;
+    
+        border-radius:20px;
+    
+        padding:18px;
+    
+        box-shadow:0 5px 15px rgba(0,0,0,.12);
+    
+    }
+    
+    .end-name{
+    
+        font-family:'Fredoka One',cursive;
+    
+        color:#27ae60;
+    
+        font-size:1.5rem;
+    
+        margin:10px 0;
+    
+    }
+
     </style>
 </head>
 <body>
@@ -297,6 +363,50 @@
             <button id="btn-iniciar" onclick="iniciarQuiz()">
                 ▶ Vamos começar!
             </button>
+
+            <!-- Tela Final -->
+            <div id="end-screen" style="display:none;">
+            
+                <h1 class="end-title">🏆 Parabéns, Lucas! 🦖</h1>
+            
+                <img
+                    src="imagens/alencarossauro.png"
+                    alt="Alencarossauro"
+                    class="end-image">
+            
+                <div class="end-card">
+            
+                    <h2>Você encontrou o lendário...</h2>
+            
+                    <div class="end-name">
+                        🦕 A L E N C A R O S S A U R O
+                    </div>
+            
+                    <p>
+                        Uma espécie extremamente rara!
+                    </p>
+            
+                    <p>
+                        Durante o dia ele trabalha no banco...
+                    </p>
+            
+                    <p>
+                        Mas quando chega em casa...
+                    </p>
+            
+                    <p>
+                        Ele coloca o chapéu de cozinheiro e prepara as comidas mais deliciosas do Nordeste!
+                        🌶️🍲
+                    </p>
+            
+                    <p>
+                        Dizem que o Alencarossauro é um dos dinossauros mais carinhosos do mundo e adora brincar com o Lucas!
+                        ❤️
+                    </p>
+            
+                </div>
+            
+            </div>
         
         </div>
 
@@ -475,6 +585,24 @@
             falar(quizData[indiceAtual].pergunta);
         }
 
+        function mostrarTelaFinal(){
+        
+            document.querySelector(".header-section").style.display="none";
+            document.getElementById("opcoes").style.display="none";
+        
+            document.getElementById("end-screen").style.display="flex";
+        
+            falar(
+                "Parabéns, Lucas! Você encontrou uma espécie muito rara. " +
+                "Este é o Alencarossauro! " +
+                "Durante o dia ele trabalha no banco. " +
+                "Mas quando chega em casa, coloca seu chapéu de cozinheiro e prepara as comidas mais gostosas do Nordeste. " +
+                "Ele é um dinossauro muito carinhoso e tem uma missão muito importante. Fazer o Lucas sorrir todos os dias! " +
+                "Você terminou o desafio. Estou muito orgulhoso de você!"
+            );
+        
+        }
+        
         function verificarResposta(selecionado) {
             const atual = quizData[indiceAtual];
             const botoes = document.querySelectorAll('.opcao-btn');
@@ -495,11 +623,7 @@
                         if (indiceAtual < quizData.length) {
                             carregarPergunta();
                         } else {
-                            document.getElementById('texto-progresso').innerText = "Fim!";
-                            document.getElementById('opcoes').innerHTML = "";
-                            document.getElementById('audio-btn').style.display = "none";
-        
-                            falar("Parabéns! Você completou o quiz dos dinossauros!");
+                            mostrarTelaFinal();
                         }
                     }, 4000);
         
