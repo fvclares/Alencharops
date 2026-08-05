@@ -39,63 +39,68 @@
             align-items: center;
             justify-content: space-between;
             border: 5px solid #fff;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Tela Inicial de Boas-Vindas com Fundo */
-        #tela-inicio {
+        /* --- Tela de Início (Start Screen) --- */
+        #start-screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('imagens/fundo.png');
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
+            /* Imagem de fundo da capa + gradiente suave */
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('imagens/capa.jpg') center/cover no-repeat;
+            background-color: #2ecc71; /* Fallback de cor verde pré-histórica */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            padding: 40px 20px;
             z-index: 10;
-            padding: 20px;
             text-align: center;
         }
 
-        #tela-inicio h1 {
-            color: #fff;
+        .start-title {
+            font-family: 'Fredoka One', cursive;
+            color: #ffffff;
             font-size: 2.2rem;
-            text-shadow: 3px 3px 0px #ff5252;
+            margin: 0;
+            text-shadow: 3px 3px 0px #d35400, -2px -2px 0px #000;
+            line-height: 1.2;
+        }
+
+        .start-subtitle {
+            font-family: 'Fredoka One', cursive;
+            color: #ffe082;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        #btn-iniciar {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: white;
+            border: 4px solid #fff;
+            padding: 16px 36px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            font-family: 'Fredoka One', cursive;
+            transition: transform 0.2s, filter 0.2s;
+            text-shadow: 1px 1px 0px #000;
+            width: 85%;
             margin-bottom: 20px;
         }
 
-        .btn-iniciar {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-            color: white;
-            border: none;
-            padding: 16px 40px;
-            font-size: 1.6rem;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5);
-            font-family: 'Fredoka One', cursive;
-            transition: transform 0.2s, filter 0.2s;
-            animation: pulsar 1.5s infinite;
-        }
-
-        .btn-iniciar:active {
+        #btn-iniciar:active {
             transform: scale(0.95);
+            filter: brightness(1.1);
         }
 
-        @keyframes pulsar {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-            100% { transform: scale(1); }
-        }
-
-        .escondido {
-            display: none !important;
-        }
-
+        /* --- Interface do Quiz --- */
         .header-section {
             display: flex;
             flex-direction: column;
@@ -209,12 +214,16 @@
 <body>
 
     <div class="container">
-        <!-- Tela Inicial de Boas-Vindas -->
-        <div id="tela-inicio">
-            <h1>Roar! O Quiz dos Dinossauros 🦖</h1>
-            <button class="btn-iniciar" onclick="iniciarJogo()">▶️ INICIAR</button>
+        <!-- Tela de Início -->
+        <div id="start-screen">
+            <div>
+                <div class="start-title">Roar! Dinossauros 🦖</div>
+                <div class="start-subtitle">Aprenda brincando!</div>
+            </div>
+            <button id="btn-iniciar" onclick="iniciarQuiz()">▶ Iniciar</button>
         </div>
 
+        <!-- Conteúdo do Quiz -->
         <div class="header-section">
             <div class="top-bar">
                 <h1>Roar! Dinossauros 🦖</h1>
@@ -235,9 +244,9 @@
                 correto: 0,
                 explicacao: "O Tiranossauro Rex tinha dentes gigantescos e braços bem curtinhos!",
                 opcoes: [
-                    { nome: "T-Rex", img: "imagens/trex.png" },
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "T-Rex", img: "imagens/trex.jpg" },
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             },
             {
@@ -245,9 +254,9 @@
                 correto: 1,
                 explicacao: "O Triceratops usava seus três chifres e o escudo ósseo para se defender!",
                 opcoes: [
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Braquiossauro", img: "imagens/braquiossauro.png" }
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Braquiossauro", img: "imagens/braquiossauro.jpg" }
                 ]
             },
             {
@@ -255,9 +264,9 @@
                 correto: 2,
                 explicacao: "O Velociraptor era ágil e caçava em grupo!",
                 opcoes: [
-                    { nome: "Anquilossauro", img: "imagens/anquilossauro.png" },
-                    { nome: "Alossauro", img: "imagens/alossauro.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "Anquilossauro", img: "imagens/anquilossauro.jpg" },
+                    { nome: "Alossauro", img: "imagens/alossauro.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             },
             {
@@ -265,9 +274,9 @@
                 correto: 0,
                 explicacao: "O Estegossauro tinha placas grandes nas costas e espinhos no rabo!",
                 opcoes: [
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "T-Rex", img: "imagens/trex.png" },
-                    { nome: "Diplodoco", img: "imagens/diplodoco.png" }
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "T-Rex", img: "imagens/trex.jpg" },
+                    { nome: "Diplodoco", img: "imagens/diplodoco.jpg" }
                 ]
             },
             {
@@ -275,9 +284,9 @@
                 correto: 1,
                 explicacao: "O Braquiossauro comia as folhas mais altas das árvores com seu pescoço comprido!",
                 opcoes: [
-                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.png" },
-                    { nome: "Braquiossauro", img: "imagens/braquiossauro.png" },
-                    { nome: "Espinossauro", img: "imagens/espinossauro.png" }
+                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.jpg" },
+                    { nome: "Braquiossauro", img: "imagens/braquiossauro.jpg" },
+                    { nome: "Espinossauro", img: "imagens/espinossauro.jpg" }
                 ]
             },
             {
@@ -285,9 +294,9 @@
                 correto: 2,
                 explicacao: "O Espinossauro adorava a água e comia peixes grandões!",
                 opcoes: [
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Alossauro", img: "imagens/alossauro.png" },
-                    { nome: "Espinossauro", img: "imagens/espinossauro.png" }
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Alossauro", img: "imagens/alossauro.jpg" },
+                    { nome: "Espinossauro", img: "imagens/espinossauro.jpg" }
                 ]
             },
             {
@@ -295,9 +304,9 @@
                 correto: 0,
                 explicacao: "O Anquilossauro tinha uma carapaça dura e uma clava pesada na ponta da cauda!",
                 opcoes: [
-                    { nome: "Anquilossauro", img: "imagens/anquilossauro.png" },
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "Anquilossauro", img: "imagens/anquilossauro.jpg" },
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             },
             {
@@ -305,9 +314,9 @@
                 correto: 1,
                 explicacao: "O Alossauro era um caçador feroz com dentes afiados como serras!",
                 opcoes: [
-                    { nome: "T-Rex", img: "imagens/trex.png" },
-                    { nome: "Alossauro", img: "imagens/alossauro.png" },
-                    { nome: "Braquiossauro", img: "imagens/braquiossauro.png" }
+                    { nome: "T-Rex", img: "imagens/trex.jpg" },
+                    { nome: "Alossauro", img: "imagens/alossauro.jpg" },
+                    { nome: "Braquiossauro", img: "imagens/braquiossauro.jpg" }
                 ]
             },
             {
@@ -315,9 +324,9 @@
                 correto: 2,
                 explicacao: "O Diplodoco era tão comprido que sua cauda parecia um chicote!",
                 opcoes: [
-                    { nome: "Triceratops", img: "imagens/triceratops.png" },
-                    { nome: "Anquilossauro", img: "imagens/anquilossauro.png" },
-                    { nome: "Diplodoco", img: "imagens/diplodoco.png" }
+                    { nome: "Triceratops", img: "imagens/triceratops.jpg" },
+                    { nome: "Anquilossauro", img: "imagens/anquilossauro.jpg" },
+                    { nome: "Diplodoco", img: "imagens/diplodoco.jpg" }
                 ]
             },
             {
@@ -325,14 +334,19 @@
                 correto: 0,
                 explicacao: "O Paquicefalossauro tinha o topo da cabeça bem grosso e duro!",
                 opcoes: [
-                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.png" },
-                    { nome: "Estegossauro", img: "imagens/estegossauro.png" },
-                    { nome: "Velociraptor", img: "imagens/velociraptor.png" }
+                    { nome: "Paquicefalossauro", img: "imagens/paquicefalossauro.jpg" },
+                    { nome: "Estegossauro", img: "imagens/estegossauro.jpg" },
+                    { nome: "Velociraptor", img: "imagens/velociraptor.jpg" }
                 ]
             }
         ];
 
         let indiceAtual = 0;
+
+        function iniciarQuiz() {
+            document.getElementById('start-screen').style.display = 'none';
+            carregarPergunta();
+        }
 
         function falar(texto, callback) {
             if ('speechSynthesis' in window) {
@@ -345,17 +359,6 @@
             } else if (callback) {
                 callback();
             }
-        }
-
-        // Tenta falar a saudação logo que a página carrega
-        window.onload = () => {
-            falar("Bem-vindo ao quiz dos dinossauros! Toque em iniciar para começar a brincadeira.");
-        };
-
-        function iniciarJogo() {
-            window.speechSynthesis.cancel(); // Para a fala de boas-vindas caso ainda esteja falando
-            document.getElementById('tela-inicio').classList.add('escondido');
-            carregarPergunta();
         }
 
         function carregarPergunta() {
